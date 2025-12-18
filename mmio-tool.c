@@ -38,7 +38,7 @@ static void usage(void) {
 "			The value to write to the provided address.\n"
 "\n"
 "\n"
-"This is Wii-Linux mmio-tool v1.1.1\n"
+"This is Wii-Linux mmio-tool v1.1.2\n"
 	);
 }
 
@@ -141,7 +141,7 @@ int main(int argc, char *argv[]) {
 	}
 
 	/* get the pointer to the val we want */
-	tmp = mem + (off / sizeof(uint32_t));
+	tmp = (uint32_t *)(((uintptr_t)mem) + off);
 
 	if (mode == 0) {
 		if (len == 1) {
