@@ -38,11 +38,11 @@ static void usage(void) {
 "			The value to write to the provided address.\n"
 "\n"
 "\n"
-"This is Wii-Linux mmio-tool v1.1.\n"
+"This is Wii-Linux mmio-tool v1.1.1\n"
 	);
 }
 
-static int addr2range(char *addr, uint32_t *_range, uint32_t *_off) {
+static int addr2range(char *addr, uint32_t *_range, uint32_t *_off, int len) {
 	uint32_t val, off, range;
 	char *tmp;
 
@@ -53,7 +53,7 @@ static int addr2range(char *addr, uint32_t *_range, uint32_t *_off) {
 		usage();
 		return 1;
 	}
-	if ((val & 3) != 0) {
+	if ((val & (len - 1)) != 0) {
 		printf("ERROR: Misaligned address \"%s\" is not allowed\n", addr);
 		usage();
 		return 1;
@@ -125,7 +125,7 @@ int main(int argc, char *argv[]) {
 		perror("ERROR: open failed");
 		return 1;
 	}
-	if (addr2range(argv[ARG_IDX_ADDR], &range, &off)) {
+	if (addr2range(argv[ARG_IDX_ADDR], &range, &off, len)) {
 		close(fd);
 		return 1;
 	}
